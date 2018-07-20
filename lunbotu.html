@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>banner</title>
+  <style>
+    ul{
+	  list-style:none;
+	  margin:0;
+	  padding:0;
+	}
+	#banner{
+	  width:1000px;
+	  height:400px;
+      overflow:hidden;
+	  margin:0 auto;
+	  position:relative;
+	}
+	#banner> ul{
+		position:absolute;
+		width:4000px;
+	}
+	#banner img{
+	  width:1000px;
+	}
+	#banner ul.banner-img li{
+	  float:left;
+	}
+    /*左右箭头*/
+    #banner a.ck-side{
+	  width:35px;
+	  height:70px;
+	  border-radius:5px;
+	  background:#ddd;
+	  position:absolute;
+	  top:155px;
+	}
+	#banner a.ck-left{
+	   background:#ddd url(index/arrow-left.png) no-repeat center center;
+	   left:5px;
+	}
+	#banner a.ck-right{
+	  background:#ddd url(index/arrow-right.png) no-repeat center center;
+	  right:5px;
+	}
+    /*导航指示器*/
+	#banner ul.ind{
+	  position:absolute;
+	  bottom:20px;
+	  left:455px;
+	}
+	#banner ul.ind li{
+	  float:left;
+	  width:10px;
+	  height:10px;
+	  background:#fff;
+	  border-radius:50%;
+	  margin-right:8px;
+	}
+	#banner ul.ind li.active{
+	  background:#0aa1ed;
+	}
+
+  </style>
+ </head>
+ <body>
+    <div id="banner">
+	  <!--1.广告图-->
+	  <ul class="banner-img" style="left:0px">
+  	 	<li><a href="#"><img src="index/banner1.png"></a></li>
+		<li><a href="#"><img src="index/banner2.png"></a></li>
+		<li><a href="#"><img src="index/banner3.png"></a></li>
+		<li><a href="#"><img src="index/banner4.png"></a></li>
+	  </ul>
+	  <!--2.左右箭头-->
+	  <a href="#" class="ck-left ck-side"></a>
+	  <a href="#" class="ck-right ck-side" ></a>
+	  <!--3.导航指示器-->
+	  <ul class="ind">
+	    <li class="active"></li>
+	    <li></li>
+	    <li></li>
+	    <li></li>
+	  </ul>
+	</div>
+	<script type="text/javascript">
+		var ul = 
+		document.querySelector(".banner-img");
+		var left_btn = 
+		document.querySelector(".ck-left");
+		var right_btn = 
+		document.querySelector(".ck-right");
+		var index=0;
+		var list = 
+		       document.querySelectorAll("ul.ind>li");
+//		console.log(list);
+		//绑定右边箭头的单击事件
+		right_btn.onclick = function(){
+			showRight();
+		}
+		//绑定左边箭头的单击事件
+		left_btn.onclick =function(){
+			showLeft();
+		}
+		
+		//左边单击事件的展示函数
+		function showRight(){
+			index++;
+			if(index>3){
+				index=0;
+			}
+			showPic();
+			
+			var newLeft;
+			if(ul.style.left==="-3000px"){
+				newLeft = 1000;
+			}else{
+				newLeft=parseInt(ul.style.left);
+			}
+			ul.style.left = newLeft-1000+"px";
+//			console.log(newLeft);
+		}
+		//右边单击事件的展示函数
+		function showLeft(){
+			index--;
+			if(index<0){
+				index = 3
+			}
+			showPic();
+			
+			var newLeft;
+			if(ul.style.left==="0px"){
+				newLeft = -4000;
+			}else{
+				newLeft =
+				parseInt(ul.style.left);
+			}
+			ul.style.left = newLeft+1000+"px";
+		}
+		
+		var timer = null;
+		
+			
+		//自动轮播函数
+		function autoPlay(){
+			timer = setInterval(function(){
+				showRight();
+			},1000);	
+		}
+		autoPlay();
+		
+		var banner = document.querySelector("#banner");
+		banner.onmouseenter = function(){
+			clearInterval(timer);
+		}
+		banner.onmouseleave = function(){
+			autoPlay();
+		}
+		
+		function showPic(){
+			for(var i=0,len=list.length;i<len;i++){
+				list[i].className = "";
+			}
+			list[index].className = "active";
+		}
+		
+		for(let i=0,len = list.length;i<len;i++){
+		(function(i){
+				list[i].onclick = function(){
+				index = i;
+				showPic();
+				ul.style.left	= 
+				i* -1000+"px";
+			}
+		})(i)
+			
+//	for(let i=0,len = list.length;i<len;i++){
+//				list[i].onclick = function(){
+//				index = i;
+//				showPic();
+//				ul.style.left	= 
+//				i* -1000+"px";
+//			}
+//
+	}
+		
+	</script>
+ </body>
+</html>
